@@ -1,0 +1,36 @@
+# Rename this file to extra_model_paths.yaml and place it in your ComfyUI root directory (comfyui_project/ComfyUI/)
+
+# Config for comfyui
+comfyui:
+    base_path: comfyui_project/ComfyUI/  # This points to your ComfyUI installation root
+    checkpoints: ../image-gen/shared/models/checkpoints/  # Relative path to your custom checkpoints
+    clip: ../image-gen/shared/models/clip/
+    clip_vision: ../image-gen/shared/models/clip_vision/
+    configs: ../image-gen/shared/models/configs/
+    controlnet: ../image-gen/shared/models/controlnet/
+    diffusion_models: ../image-gen/shared/models/diffusion_models/
+    embeddings: ../image-gen/shared/models/embeddings/
+    loras: ../image-gen/shared/models/loras/
+    upscale_models: ../image-gen/shared/models/upscale_models/
+    vae: ../image-gen/shared/models/vae/
+
+# You can leave the other sections commented out if you're not using a1111 or another UI
+#a111:
+#    base_path: path/to/stable-diffusion-webui/
+#    checkpoints: models/Stable-diffusion
+#    configs: models/Stable-diffusion
+#    vae: models/VAE
+#    loras: |
+#         models/Lora
+#         models/LyCORIS
+#    upscale_models: |
+#                  models/ESRGAN
+#                  models/RealESRGAN
+#                  models/SwinIR
+#    embeddings: embeddings
+#    hypernetworks: models/hypernetworks
+#    controlnet: models/ControlNet
+
+#other_ui:
+#    base_path: path/to/ui
+#    checkpoints: models/check
