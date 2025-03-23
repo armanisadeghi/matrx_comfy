@@ -49,12 +49,22 @@ RUN git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git ComfyUI/custom
     git clone https://github.com/ltdrdata/ComfyUI-Inspire-Pack.git ComfyUI/custom_nodes/ComfyUI-Inspire-Pack && \
     git clone https://github.com/welltop-cn/ComfyUI-TeaCache.git ComfyUI/custom_nodes/ComfyUI-TeaCache
 
-# Add NVIDIA environment variables for GPU support (from original)
+# Copy the matrx_comfy/workflows directory into the container without overwriting existing files
+COPY matrx_comfy/workflows /ComfyUI/user/default/workflows/
+
+# Ensure the workflows directory exists and copy files only if they don't already exist
+RUN mkdir -p /ComfyUI/user/default/workflows && \
+    cp -n matrx_comfy/workflows/* /ComfyUI/user/default/workflows/ || true
+
+# Add NVIDIA environment variables for GPU support
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+
+# Ensure all GPUs are enabled by default when running the container
+ENV CUDA_VISIBLE_DEVICES all
 
 # Expose port 8189
 EXPOSE 8189
 
-# Run ComfyUI on port 8189 with full startup options (adapted from original)
-CMD ["python3", "ComfyUI/main.py", "--listen", "0.0.0.0", "--port", "8189", "--preview-method", "auto"]
+# Run ComfyUI on port 8189 with full startup options, enabling all GPUs
+CMD ["python3", "ComfyUI/main.py", "--listen", "0.0.0.0", "--port", "8189", "--preview-method", "auto", "--enable-cuda-all-gpus"]

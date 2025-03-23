@@ -1,0 +1,185 @@
+{
+  "last_node_id": 4,
+  "last_link_id": 3,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LoadImage",
+      "pos": {
+        "0": -487,
+        "1": -2308
+      },
+      "size": [
+        1313.3886634101912,
+        1395.2155265084177
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "pexels-davis-zarins-222329238-12803557.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "SaveImage",
+      "pos": {
+        "0": 1529,
+        "1": -2295
+      },
+      "size": [
+        1396.8526096119463,
+        1431.85384147471
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 3
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "ExpressionEditor",
+      "pos": {
+        "0": 1049,
+        "1": -2303
+      },
+      "size": [
+        315,
+        690
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "src_image",
+          "type": "IMAGE",
+          "link": 1,
+          "shape": 7
+        },
+        {
+          "name": "motion_link",
+          "type": "EDITOR_LINK",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "sample_image",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "add_exp",
+          "type": "EXP_DATA",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            3
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "motion_link",
+          "type": "EDITOR_LINK",
+          "links": null
+        },
+        {
+          "name": "save_exp",
+          "type": "EXP_DATA",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ExpressionEditor"
+      },
+      "widgets_values": [
+        10,
+        -6.6000000000000005,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.4,
+        1,
+        1,
+        "OnlyExpression",
+        1.7
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      2,
+      0,
+      "IMAGE"
+    ],
+    [
+      3,
+      2,
+      0,
+      4,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.16105100000000053,
+      "offset": [
+        4931.055116652726,
+        3810.183642647594
+      ]
+    }
+  },
+  "version": 0.4
+}

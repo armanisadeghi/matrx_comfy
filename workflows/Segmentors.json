@@ -1,0 +1,915 @@
+{
+  "last_node_id": 23,
+  "last_link_id": 30,
+  "nodes": [
+    {
+      "id": 11,
+      "type": "LayerMask: LoadFlorence2Model",
+      "pos": {
+        "0": 894.8201904296875,
+        "1": 156.4977264404297
+      },
+      "size": {
+        "0": 260.3999938964844,
+        "1": 58
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "florence2_model",
+          "type": "FLORENCE2",
+          "links": [
+            12
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerMask: LoadFlorence2Model"
+      },
+      "widgets_values": [
+        "base"
+      ],
+      "color": "rgba(27, 80, 119, 0.7)"
+    },
+    {
+      "id": 8,
+      "type": "LayerMask: ObjectDetectorYOLO8",
+      "pos": {
+        "0": 891.6444091796875,
+        "1": 744.4860229492188
+      },
+      "size": {
+        "0": 268.79998779296875,
+        "1": 150
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 23
+        }
+      ],
+      "outputs": [
+        {
+          "name": "bboxes",
+          "type": "BBOXES",
+          "links": [
+            15
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "preview",
+          "type": "IMAGE",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerMask: ObjectDetectorYOLO8"
+      },
+      "widgets_values": [
+        null,
+        "left_to_right",
+        "all",
+        "0,"
+      ],
+      "color": "rgba(27, 80, 119, 0.7)"
+    },
+    {
+      "id": 9,
+      "type": "LayerMask: ObjectDetectorYOLOWorld",
+      "pos": {
+        "0": 885.7481079101562,
+        "1": 997.0053100585938
+      },
+      "size": {
+        "0": 310.79998779296875,
+        "1": 222
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 24
+        }
+      ],
+      "outputs": [
+        {
+          "name": "bboxes",
+          "type": "BBOXES",
+          "links": [
+            16
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "preview",
+          "type": "IMAGE",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerMask: ObjectDetectorYOLOWorld"
+      },
+      "widgets_values": [
+        "yolo_world/v2-x",
+        0.05,
+        0.3,
+        "subject",
+        "left_to_right",
+        "all",
+        "0,"
+      ],
+      "color": "rgba(27, 80, 119, 0.7)"
+    },
+    {
+      "id": 17,
+      "type": "Reroute",
+      "pos": {
+        "0": 716,
+        "1": 704
+      },
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 22
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "IMAGE",
+          "links": [
+            23,
+            24,
+            25
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 12,
+      "type": "Any Switch (rgthree)",
+      "pos": {
+        "0": 1341,
+        "1": 512
+      },
+      "size": {
+        "0": 168,
+        "1": 106
+      },
+      "flags": {
+        "collapsed": false
+      },
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_01",
+          "type": "BBOXES",
+          "link": 13,
+          "dir": 3
+        },
+        {
+          "name": "any_02",
+          "type": "BBOXES",
+          "link": 14,
+          "dir": 3
+        },
+        {
+          "name": "any_03",
+          "type": "BBOXES",
+          "link": 15,
+          "dir": 3
+        },
+        {
+          "name": "any_04",
+          "type": "BBOXES",
+          "link": 16,
+          "dir": 3
+        },
+        {
+          "name": "any_05",
+          "type": "BBOXES",
+          "link": null,
+          "dir": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "*",
+          "type": "BBOXES",
+          "links": [
+            19
+          ],
+          "slot_index": 0,
+          "shape": 3,
+          "dir": 4,
+          "label": "BBOXES"
+        }
+      ],
+      "properties": {},
+      "widgets_values": []
+    },
+    {
+      "id": 13,
+      "type": "Fast Groups Bypasser (rgthree)",
+      "pos": {
+        "0": 516,
+        "1": 138
+      },
+      "size": {
+        "0": 252,
+        "1": 130
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "links": null
+        }
+      ],
+      "properties": {
+        "matchColors": "",
+        "matchTitle": "",
+        "showNav": true,
+        "sort": "position",
+        "customSortAlphabet": "",
+        "toggleRestriction": "default"
+      }
+    },
+    {
+      "id": 7,
+      "type": "LayerMask: ObjectDetectorMask",
+      "pos": {
+        "0": 892.719482421875,
+        "1": 513.0465087890625
+      },
+      "size": {
+        "0": 260.3999938964844,
+        "1": 126
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "object_mask",
+          "type": "MASK",
+          "link": 21
+        }
+      ],
+      "outputs": [
+        {
+          "name": "bboxes",
+          "type": "BBOXES",
+          "links": [
+            13
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "preview",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 1,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerMask: ObjectDetectorMask"
+      },
+      "widgets_values": [
+        "left_to_right",
+        "all",
+        "0,"
+      ],
+      "color": "rgba(27, 80, 119, 0.7)"
+    },
+    {
+      "id": 18,
+      "type": "LayerMask: BBoxJoin",
+      "pos": {
+        "0": 1298,
+        "1": 344
+      },
+      "size": {
+        "0": 252,
+        "1": 86
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "bboxes_1",
+          "type": "BBOXES",
+          "link": null
+        },
+        {
+          "name": "bboxes_2",
+          "type": "BBOXES",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "bboxes_3",
+          "type": "BBOXES",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "bboxes_4",
+          "type": "BBOXES",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "bboxes",
+          "type": "BBOXES",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerMask: BBoxJoin"
+      },
+      "widgets_values": [],
+      "color": "rgba(27, 80, 119, 0.7)"
+    },
+    {
+      "id": 19,
+      "type": "Note",
+      "pos": {
+        "0": 180,
+        "1": 134
+      },
+      "size": {
+        "0": 294.3802490234375,
+        "1": 158.35939025878906
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "The buttons to the right let you turn on or off the various methods for segmentation available."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 14,
+      "type": "LayerMask: SAM2Ultra",
+      "pos": {
+        "0": 1331,
+        "1": 671
+      },
+      "size": {
+        "0": 315,
+        "1": 366
+      },
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 18
+        },
+        {
+          "name": "bboxes",
+          "type": "BBOXES",
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            20
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [
+            27
+          ],
+          "slot_index": 1,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerMask: SAM2Ultra"
+      },
+      "widgets_values": [
+        "sam2_hiera_base_plus.safetensors",
+        "fp16",
+        "all",
+        "0,",
+        false,
+        "VITMatte",
+        6,
+        4,
+        0.15,
+        0.99,
+        true,
+        "cuda",
+        2
+      ],
+      "color": "rgba(27, 80, 119, 0.7)"
+    },
+    {
+      "id": 20,
+      "type": "MaskPreview+",
+      "pos": {
+        "0": 2792.454833984375,
+        "1": 190.7581024169922
+      },
+      "size": {
+        "0": 919.113037109375,
+        "1": 1113.03662109375
+      },
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 27
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "MaskPreview+"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 10,
+      "type": "LayerMask: ObjectDetectorFL2",
+      "pos": {
+        "0": 890.8201904296875,
+        "1": 260.49774169921875
+      },
+      "size": {
+        "0": 302.3999938964844,
+        "1": 150
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 25
+        },
+        {
+          "name": "florence2_model",
+          "type": "FLORENCE2",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "bboxes",
+          "type": "BBOXES",
+          "links": [
+            14
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "preview",
+          "type": "IMAGE",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerMask: ObjectDetectorFL2"
+      },
+      "widgets_values": [
+        "man",
+        "left_to_right",
+        "all",
+        "0,"
+      ],
+      "color": "rgba(27, 80, 119, 0.7)"
+    },
+    {
+      "id": 15,
+      "type": "LoadImage",
+      "pos": {
+        "0": 109,
+        "1": 616
+      },
+      "size": {
+        "0": 529.1825561523438,
+        "1": 580.9801025390625
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            18,
+            22,
+            28
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            21
+          ],
+          "slot_index": 1,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "pexels-ivan-samkov-8127691.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 22,
+      "type": "BRIA_RMBG_ModelLoader_Zho",
+      "pos": {
+        "0": 504,
+        "1": 1328
+      },
+      "size": {
+        "0": 302.4000244140625,
+        "1": 26
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "rmbgmodel",
+          "type": "RMBGMODEL",
+          "links": [
+            29
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BRIA_RMBG_ModelLoader_Zho"
+      }
+    },
+    {
+      "id": 21,
+      "type": "BRIA_RMBG_Zho",
+      "pos": {
+        "0": 921,
+        "1": 1406
+      },
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "rmbgmodel",
+          "type": "RMBGMODEL",
+          "link": 29
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 28
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            30
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BRIA_RMBG_Zho"
+      }
+    },
+    {
+      "id": 16,
+      "type": "PreviewImage",
+      "pos": {
+        "0": 1694,
+        "1": 194
+      },
+      "size": {
+        "0": 1046.98583984375,
+        "1": 1106.990478515625
+      },
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 20
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 23,
+      "type": "PreviewImage",
+      "pos": {
+        "0": 1637,
+        "1": 1442
+      },
+      "size": [
+        1135.5931989410692,
+        1227.7663285122444
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 30
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    }
+  ],
+  "links": [
+    [
+      12,
+      11,
+      0,
+      10,
+      1,
+      "FLORENCE2"
+    ],
+    [
+      13,
+      7,
+      0,
+      12,
+      0,
+      "*"
+    ],
+    [
+      14,
+      10,
+      0,
+      12,
+      1,
+      "BBOXES"
+    ],
+    [
+      15,
+      8,
+      0,
+      12,
+      2,
+      "BBOXES"
+    ],
+    [
+      16,
+      9,
+      0,
+      12,
+      3,
+      "BBOXES"
+    ],
+    [
+      18,
+      15,
+      0,
+      14,
+      0,
+      "IMAGE"
+    ],
+    [
+      19,
+      12,
+      0,
+      14,
+      1,
+      "BBOXES"
+    ],
+    [
+      20,
+      14,
+      0,
+      16,
+      0,
+      "IMAGE"
+    ],
+    [
+      21,
+      15,
+      1,
+      7,
+      0,
+      "MASK"
+    ],
+    [
+      22,
+      15,
+      0,
+      17,
+      0,
+      "*"
+    ],
+    [
+      23,
+      17,
+      0,
+      8,
+      0,
+      "IMAGE"
+    ],
+    [
+      24,
+      17,
+      0,
+      9,
+      0,
+      "IMAGE"
+    ],
+    [
+      25,
+      17,
+      0,
+      10,
+      0,
+      "IMAGE"
+    ],
+    [
+      27,
+      14,
+      1,
+      20,
+      0,
+      "MASK"
+    ],
+    [
+      28,
+      15,
+      0,
+      21,
+      1,
+      "IMAGE"
+    ],
+    [
+      29,
+      22,
+      0,
+      21,
+      0,
+      "RMBGMODEL"
+    ],
+    [
+      30,
+      21,
+      0,
+      23,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "YOLO8",
+      "bounding": [
+        882,
+        671,
+        289,
+        234
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "YOLO WORLD",
+      "bounding": [
+        876,
+        923,
+        331,
+        306
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "OBJECT DETECTOR",
+      "bounding": [
+        883,
+        439,
+        280,
+        210
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "FLORENCE",
+      "bounding": [
+        880,
+        82,
+        322,
+        338
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.37974983358324144,
+      "offset": [
+        1340.5953345718228,
+        -390.24042621451304
+      ]
+    }
+  },
+  "version": 0.4
+}

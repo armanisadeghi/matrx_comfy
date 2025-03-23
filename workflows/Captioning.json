@@ -1,0 +1,901 @@
+{
+  "last_node_id": 20,
+  "last_link_id": 26,
+  "nodes": [
+    {
+      "id": 3,
+      "type": "DownloadAndLoadFlorence2Model",
+      "pos": {
+        "0": -348.398681640625,
+        "1": -1590
+      },
+      "size": {
+        "0": 365.4000244140625,
+        "1": 106
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "lora",
+          "type": "PEFTLORA",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "florence2_model",
+          "type": "FL2MODEL",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DownloadAndLoadFlorence2Model"
+      },
+      "widgets_values": [
+        "microsoft/Florence-2-base",
+        "fp16",
+        "sdpa"
+      ]
+    },
+    {
+      "id": 1,
+      "type": "Florence2Run",
+      "pos": {
+        "0": -378.79736328125,
+        "1": -1418.438232421875
+      },
+      "size": {
+        "0": 400,
+        "1": 352
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 18
+        },
+        {
+          "name": "florence2_model",
+          "type": "FL2MODEL",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": null
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": null
+        },
+        {
+          "name": "caption",
+          "type": "STRING",
+          "links": [
+            3
+          ],
+          "slot_index": 2
+        },
+        {
+          "name": "data",
+          "type": "JSON",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Florence2Run"
+      },
+      "widgets_values": [
+        "",
+        "more_detailed_caption",
+        true,
+        false,
+        1024,
+        3,
+        true,
+        "",
+        696200023127210,
+        "randomize"
+      ]
+    },
+    {
+      "id": 4,
+      "type": "ShowText|pysssss",
+      "pos": {
+        "0": 153.601318359375,
+        "1": -1395
+      },
+      "size": [
+        709.9093979004155,
+        342.0961911275904
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 3,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        "",
+        "The image is an illustration of a young man standing in front of the Statue of Liberty in New York City. The man is wearing a yellow jacket and has a backpack on his back. He has curly hair and is smiling at the camera. The background of the image is a cityscape with tall buildings and skyscrapers. The sky is blue with white clouds and there are birds flying in the distance. The statue of liberty is tall and slender, with a golden crown on top."
+      ]
+    },
+    {
+      "id": 6,
+      "type": "ShowText|pysssss",
+      "pos": {
+        "0": 154,
+        "1": -877
+      },
+      "size": [
+        709.9093979004155,
+        342.0961911275904
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 5,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 8,
+      "type": "ShowText|pysssss",
+      "pos": {
+        "0": 141,
+        "1": -276
+      },
+      "size": [
+        709.9093979004155,
+        342.0961911275904
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 7,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 9,
+      "type": "LayerUtility: VQAPrompt",
+      "pos": {
+        "0": -370,
+        "1": 504
+      },
+      "size": {
+        "0": 400,
+        "1": 200
+      },
+      "flags": {},
+      "order": 10,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 21
+        },
+        {
+          "name": "vqa_model",
+          "type": "VQA_MODEL",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [
+            9
+          ],
+          "shape": 6,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerUtility: VQAPrompt"
+      },
+      "widgets_values": [
+        "{age number} years old {ethnicity} {gender}, weared {garment color} {garment}, {eye color} eyes, {hair style} {hair color} hair, {background} background."
+      ]
+    },
+    {
+      "id": 11,
+      "type": "LayerUtility: LoadVQAModel",
+      "pos": {
+        "0": -351,
+        "1": 346
+      },
+      "size": {
+        "0": 352.79998779296875,
+        "1": 106
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 4,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "vqa_model",
+          "type": "VQA_MODEL",
+          "links": [
+            10
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerUtility: LoadVQAModel"
+      },
+      "widgets_values": [
+        "blip-vqa-base",
+        "fp16",
+        "cuda"
+      ]
+    },
+    {
+      "id": 7,
+      "type": "Joy_caption",
+      "pos": {
+        "0": -371,
+        "1": -162
+      },
+      "size": {
+        "0": 400,
+        "1": 200
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "joy_pipeline",
+          "type": "JoyPipeline",
+          "link": 11
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 20
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            7
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Joy_caption"
+      },
+      "widgets_values": [
+        "A descriptive caption for this image",
+        1024,
+        0.7,
+        false
+      ]
+    },
+    {
+      "id": 12,
+      "type": "Joy_caption_load",
+      "pos": {
+        "0": -346,
+        "1": -271
+      },
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 4,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "JoyPipeline",
+          "type": "JoyPipeline",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Joy_caption_load"
+      },
+      "widgets_values": [
+        "unsloth/Meta-Llama-3.1-8B-bnb-4bit"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "Molmo7BDbnb",
+      "pos": {
+        "0": -378,
+        "1": -844
+      },
+      "size": {
+        "0": 400,
+        "1": 268
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            5
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Molmo7BDbnb"
+      },
+      "widgets_values": [
+        "Describe",
+        "",
+        1480212801,
+        "randomize",
+        350,
+        0.6,
+        40,
+        0.9,
+        true
+      ]
+    },
+    {
+      "id": 2,
+      "type": "LoadImage",
+      "pos": {
+        "0": -1326,
+        "1": -1017
+      },
+      "size": [
+        496.992470838385,
+        596.2988125040124
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            22
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "0-2-16.webp",
+        "image"
+      ]
+    },
+    {
+      "id": 16,
+      "type": "Reroute",
+      "pos": {
+        "0": -778,
+        "1": -1012
+      },
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 22
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "IMAGE",
+          "links": [
+            18,
+            19,
+            20,
+            21,
+            23
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 19,
+      "type": "BLIP Model Loader",
+      "pos": {
+        "0": -385,
+        "1": 895
+      },
+      "size": {
+        "0": 315,
+        "1": 106
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 4,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "BLIP_MODEL",
+          "type": "BLIP_MODEL",
+          "links": [
+            25
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BLIP Model Loader"
+      },
+      "widgets_values": [
+        "Salesforce/blip-image-captioning-base",
+        "Salesforce/blip-vqa-base",
+        "cuda"
+      ]
+    },
+    {
+      "id": 10,
+      "type": "ShowText|pysssss",
+      "pos": {
+        "0": 117,
+        "1": 339
+      },
+      "size": [
+        709.9093979004155,
+        342.0961911275904
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 9,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 17,
+      "type": "BLIP Analyze Image",
+      "pos": {
+        "0": -388,
+        "1": 1053
+      },
+      "size": {
+        "0": 400,
+        "1": 240
+      },
+      "flags": {},
+      "order": 11,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 23
+        },
+        {
+          "name": "blip_model",
+          "type": "BLIP_MODEL",
+          "link": 25
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            26
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BLIP Analyze Image"
+      },
+      "widgets_values": [
+        "caption",
+        "What does the background consist of?",
+        24,
+        64,
+        5,
+        3,
+        false
+      ]
+    },
+    {
+      "id": 20,
+      "type": "ShowText|pysssss",
+      "pos": {
+        "0": 117,
+        "1": 895
+      },
+      "size": [
+        709.9093979004155,
+        342.0961911275904
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 26,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null,
+          "shape": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ShowText|pysssss"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 15,
+      "type": "Fast Groups Bypasser (rgthree)",
+      "pos": {
+        "0": -1005,
+        "1": -1591
+      },
+      "size": {
+        "0": 252,
+        "1": 178
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "links": null
+        }
+      ],
+      "properties": {
+        "matchColors": "",
+        "matchTitle": "",
+        "showNav": true,
+        "sort": "position",
+        "customSortAlphabet": "",
+        "toggleRestriction": "default"
+      }
+    }
+  ],
+  "links": [
+    [
+      2,
+      3,
+      0,
+      1,
+      1,
+      "FL2MODEL"
+    ],
+    [
+      3,
+      1,
+      2,
+      4,
+      0,
+      "STRING"
+    ],
+    [
+      5,
+      5,
+      0,
+      6,
+      0,
+      "STRING"
+    ],
+    [
+      7,
+      7,
+      0,
+      8,
+      0,
+      "STRING"
+    ],
+    [
+      9,
+      9,
+      0,
+      10,
+      0,
+      "STRING"
+    ],
+    [
+      10,
+      11,
+      0,
+      9,
+      1,
+      "VQA_MODEL"
+    ],
+    [
+      11,
+      12,
+      0,
+      7,
+      0,
+      "JoyPipeline"
+    ],
+    [
+      18,
+      16,
+      0,
+      1,
+      0,
+      "IMAGE"
+    ],
+    [
+      19,
+      16,
+      0,
+      5,
+      0,
+      "IMAGE"
+    ],
+    [
+      20,
+      16,
+      0,
+      7,
+      1,
+      "IMAGE"
+    ],
+    [
+      21,
+      16,
+      0,
+      9,
+      0,
+      "IMAGE"
+    ],
+    [
+      22,
+      2,
+      0,
+      16,
+      0,
+      "*"
+    ],
+    [
+      23,
+      16,
+      0,
+      17,
+      0,
+      "IMAGE"
+    ],
+    [
+      25,
+      19,
+      0,
+      17,
+      1,
+      "BLIP_MODEL"
+    ],
+    [
+      26,
+      17,
+      0,
+      20,
+      0,
+      "STRING"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "Blip",
+      "bounding": [
+        -398,
+        821,
+        1235,
+        482
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "Joy Captioner",
+      "bounding": [
+        -395,
+        -357,
+        1254,
+        433
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "Molmo",
+      "bounding": [
+        -400,
+        -951,
+        1274,
+        426
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "Florence Captioning",
+      "bounding": [
+        -389,
+        -1664,
+        1262,
+        621
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "Salesforce VQA",
+      "bounding": [
+        -399,
+        257,
+        1242,
+        464
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.19487171000000078,
+      "offset": [
+        3956.8407684932163,
+        2731.8855017222622
+      ]
+    }
+  },
+  "version": 0.4
+}

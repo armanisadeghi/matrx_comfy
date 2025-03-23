@@ -1,0 +1,3 @@
+comfyui-container:
+- dest: /comfyui_project/ComfyUI/models
+  local: /root/image-gen/shared/models

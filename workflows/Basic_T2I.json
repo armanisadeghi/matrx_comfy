@@ -1,0 +1,618 @@
+{
+  "last_node_id": 21,
+  "last_link_id": 36,
+  "nodes": [
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": {
+        "0": 1367.7154541015625,
+        "1": 110.06423950195312
+      },
+      "size": {
+        "0": 325,
+        "1": 100
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 7
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 8
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            9
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": [],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 3,
+      "type": "KSampler",
+      "pos": {
+        "0": 1373.7154541015625,
+        "1": 269.0641784667969
+      },
+      "size": {
+        "0": 325,
+        "1": 262
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 30
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 31
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 32
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            7
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        8,
+        "increment",
+        10,
+        2,
+        "ddpm",
+        "exponential",
+        1
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 9,
+      "type": "SaveImage",
+      "pos": {
+        "0": 1755.7152099609375,
+        "1": 115.0642318725586
+      },
+      "size": {
+        "0": 700,
+        "1": 550
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 9
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 10,
+      "type": "CLIPTextEncode",
+      "pos": {
+        "0": 1076,
+        "1": 286
+      },
+      "size": [
+        210,
+        54
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 21
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 35,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            30
+          ],
+          "slot_index": 0
+        }
+      ],
+      "title": "Positive Prompt",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "WOMAN PORTRAIT"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 11,
+      "type": "CLIPTextEncode",
+      "pos": {
+        "0": 1084,
+        "1": 388
+      },
+      "size": [
+        210,
+        54
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 20
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 36,
+          "widget": {
+            "name": "text"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            31
+          ],
+          "slot_index": 0
+        }
+      ],
+      "title": "Negative Prompt",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 4,
+      "type": "CheckpointLoaderSimple",
+      "pos": {
+        "0": 51,
+        "1": 73
+      },
+      "size": {
+        "0": 325,
+        "1": 100
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            20,
+            21
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            8
+          ],
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckpointLoaderSimple"
+      },
+      "widgets_values": [
+        "dreamshaperXL_sfwLightningDPMSDE.safetensors"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 20,
+      "type": "easy negative",
+      "pos": {
+        "0": 119,
+        "1": 555
+      },
+      "size": {
+        "0": 400,
+        "1": 200
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "negative",
+          "type": "STRING",
+          "links": [
+            34
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "easy negative"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 19,
+      "type": "easy positive",
+      "pos": {
+        "0": 116,
+        "1": 290
+      },
+      "size": {
+        "0": 400,
+        "1": 200
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "STRING",
+          "links": [
+            33
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "easy positive"
+      },
+      "widgets_values": [
+        "portrait of a business woman"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 21,
+      "type": "easy stylesSelector",
+      "pos": {
+        "0": 587,
+        "1": 298
+      },
+      "size": [
+        425,
+        500
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "STRING",
+          "link": 33,
+          "widget": {
+            "name": "positive"
+          },
+          "shape": 7
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "link": 34,
+          "widget": {
+            "name": "negative"
+          },
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "STRING",
+          "links": [
+            35
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "links": [
+            36
+          ],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "easy stylesSelector",
+        "values": [
+          "Fooocus Enhance",
+          "Fooocus Sharp"
+        ]
+      },
+      "widgets_values": [
+        "fooocus_styles",
+        "",
+        "",
+        "Fooocus Enhance,Fooocus Sharp"
+      ]
+    },
+    {
+      "id": 18,
+      "type": "CR SDXL Aspect Ratio",
+      "pos": {
+        "0": 1040,
+        "1": 520
+      },
+      "size": {
+        "0": 315,
+        "1": 278
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "upscale_factor",
+          "type": "FLOAT",
+          "links": null
+        },
+        {
+          "name": "batch_size",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "empty_latent",
+          "type": "LATENT",
+          "links": [
+            32
+          ],
+          "slot_index": 4
+        },
+        {
+          "name": "show_help",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CR SDXL Aspect Ratio"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        "custom",
+        "Off",
+        1,
+        1
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      4,
+      0,
+      3,
+      0,
+      "MODEL"
+    ],
+    [
+      7,
+      3,
+      0,
+      8,
+      0,
+      "LATENT"
+    ],
+    [
+      8,
+      4,
+      2,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      9,
+      8,
+      0,
+      9,
+      0,
+      "IMAGE"
+    ],
+    [
+      20,
+      4,
+      1,
+      11,
+      0,
+      "CLIP"
+    ],
+    [
+      21,
+      4,
+      1,
+      10,
+      0,
+      "CLIP"
+    ],
+    [
+      30,
+      10,
+      0,
+      3,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      31,
+      11,
+      0,
+      3,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      32,
+      18,
+      4,
+      3,
+      3,
+      "LATENT"
+    ],
+    [
+      33,
+      19,
+      0,
+      21,
+      0,
+      "STRING"
+    ],
+    [
+      34,
+      20,
+      0,
+      21,
+      1,
+      "STRING"
+    ],
+    [
+      35,
+      21,
+      0,
+      10,
+      1,
+      "STRING"
+    ],
+    [
+      36,
+      21,
+      1,
+      11,
+      1,
+      "STRING"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "Default",
+      "bounding": [
+        0,
+        0,
+        2527,
+        1414
+      ],
+      "color": "#8A8",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.4090909090909111,
+      "offset": [
+        1086.7403560020189,
+        597.2967624979933
+      ]
+    },
+    "groupNodes": {}
+  },
+  "version": 0.4
+}

@@ -1,0 +1,6 @@
+comfyui-container:
+- --gpus all
+- -p 8189:8189
+default:
+- --gpus all
+- -p 8189:8189

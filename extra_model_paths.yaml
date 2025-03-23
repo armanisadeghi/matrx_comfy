@@ -1,18 +1,30 @@
-# Rename this file to extra_model_paths.yaml and place it in your ComfyUI root directory (comfyui_project/ComfyUI/)
+# matrx_comfy/extra_model_paths.yaml
 
-# Config for comfyui
 comfyui:
-    base_path: comfyui_project/ComfyUI/  # This points to your ComfyUI installation root
-    checkpoints: ../image-gen/shared/models/checkpoints/  # Relative path to your custom checkpoints
-    clip: ../image-gen/shared/models/clip/
-    clip_vision: ../image-gen/shared/models/clip_vision/
-    configs: ../image-gen/shared/models/configs/
-    controlnet: ../image-gen/shared/models/controlnet/
-    diffusion_models: ../image-gen/shared/models/diffusion_models/
-    embeddings: ../image-gen/shared/models/embeddings/
-    loras: ../image-gen/shared/models/loras/
-    upscale_models: ../image-gen/shared/models/upscale_models/
-    vae: ../image-gen/shared/models/vae/
+    base_path: comfyui_project/ComfyUI/
+    is_default: true
+    checkpoints: models/checkpoints/
+    clip: models/clip/
+    clip_vision: models/clip_vision/
+    configs: models/configs/
+    controlnet: models/controlnet/
+    diffusion_models: |
+                 models/diffusion_models
+                 models/unet
+    embeddings: models/embeddings/
+    loras: models/loras/
+    upscale_models: models/upscale_models/
+    vae: models/vae/
+
+
+
+#other_ui:
+#    base_path: path/to/ui
+#    checkpoints: models/checkpoints
+#    gligen: models/gligen
+#    custom_nodes: path/custom_nodes
+
+
 
 # You can leave the other sections commented out if you're not using a1111 or another UI
 #a111:
