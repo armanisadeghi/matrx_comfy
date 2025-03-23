@@ -18,7 +18,8 @@ DEFAULT_CONTAINER_NAME = "matrx-comfy"
 DOCKER_PORT = "8189"
 VOLUME_MAP_FILE = os.path.join(BASE_DIR, "volume_mappings.yaml")
 DOCKER_FLAGS_FILE = os.path.join(BASE_DIR, "docker_flags.yaml")
-WORKFLOWS_DIR = "/comfyui_project/ComfyUI/my_workflows"
+WORKFLOWS_DIR = "/matrx_comfy/ComfyUI/user/default/workflows"
+DOCKER_IMAGE_TAG = "matrx-comfy:latest"
 
 def run_command(command, return_output=False):
     try:
@@ -33,11 +34,39 @@ def run_command(command, return_output=False):
         print(Fore.RED + f"Stderr: {e.stderr}" + Style.RESET_ALL)
         return None if return_output else False
 
-def get_running_containers():
-    cmd = "docker ps --format '{{.Names}}'"
+def build_docker_image(verbose=False):
+    build_cmd = f"docker build -t {DOCKER_IMAGE_TAG} {DOCKERFILE_PATH}"
+    print(Fore.CYAN + f"Building Docker image '{DOCKER_IMAGE_TAG}'..." + Style.RESET_ALL)
+    if verbose:
+        print(Fore.CYAN + "Verbose output enabled. Streaming build logs..." + Style.RESET_ALL)
+        process = subprocess.Popen(build_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        while process.poll() is None:
+            line = process.stdout.readline()
+            if line:
+                print(Fore.WHITE + line.strip() + Style.RESET_ALL)
+        # Capture any remaining output
+        for line in process.stdout:
+            print(Fore.WHITE + line.strip() + Style.RESET_ALL)
+        if process.returncode != 0:
+            print(Fore.RED + "Build failed. Check logs above for details." + Style.RESET_ALL)
+            return False
+        print(Fore.GREEN + "Build completed successfully." + Style.RESET_ALL)
+        return True
+    else:
+        return run_command(build_cmd)
+
+def get_running_containers(image_tag=None):
+    cmd = "docker ps -a --format '{{.Names}} {{.Image}}'" if image_tag else "docker ps --format '{{.Names}}'"
     try:
         output = subprocess.check_output(cmd, shell=True, text=True)
-        containers = [name.strip() for name in output.splitlines() if name.strip()]
+        containers = []
+        for line in output.splitlines():
+            if image_tag:
+                name, image = line.strip().split(maxsplit=1)
+                if image == image_tag:
+                    containers.append(name)
+            else:
+                containers.append(line.strip())
         return containers
     except subprocess.CalledProcessError:
         return []
@@ -170,7 +199,7 @@ def copy_workflows(container_name):
     print(Fore.GREEN + f"Copied contents of {source_dir} to {WORKFLOWS_DIR} in {container_name}" + Style.RESET_ALL)
 
 def view_config_contents(source, is_local=True):
-    path = CONFIG_PATH if is_local else f"{source}:/comfyui_project/ComfyUI/extra_model_paths.yaml"
+    path = CONFIG_PATH if is_local else f"{source}:/matrx_comfy/ComfyUI/extra_model_paths.yaml"
     if is_local and not os.path.exists(path):
         print(Fore.RED + f"{path} not found." + Style.RESET_ALL)
         return None
@@ -190,7 +219,8 @@ def view_config_contents(source, is_local=True):
 
 def build_docker():
     print(Fore.CYAN + Back.BLACK + "Building Docker image..." + Style.RESET_ALL)
-    run_command(f"docker build -t matrx-comfy:latest {DOCKERFILE_PATH}")
+    verbose = input(Fore.CYAN + "Show verbose build output? (y/n, default n): " + Style.RESET_ALL).lower() == 'y'
+    build_docker_image(verbose=verbose)
 
 def copy_config_to_container(container_name):
     print(Fore.CYAN + f"Copying local extra_model_paths.yaml into {container_name}..." + Style.RESET_ALL)
@@ -198,7 +228,7 @@ def copy_config_to_container(container_name):
         print(Fore.RED + f"Error: {CONFIG_PATH} not found. Please create it first." + Style.RESET_ALL)
         return
     old_content = view_config_contents(container_name, is_local=False)
-    copy_cmd = f"docker cp {CONFIG_PATH} {container_name}:/comfyui_project/ComfyUI/extra_model_paths.yaml"
+    copy_cmd = f"docker cp {CONFIG_PATH} {container_name}:/matrx_comfy/ComfyUI/extra_model_paths.yaml"
     run_command(copy_cmd)
     new_content = view_config_contents(container_name, is_local=False)
     if old_content and new_content:
@@ -211,7 +241,7 @@ def copy_config_to_container(container_name):
 def update_local_config(container_name):
     print(Fore.CYAN + f"Updating local extra_model_paths.yaml from {container_name}..." + Style.RESET_ALL)
     old_content = view_config_contents(None, is_local=True)
-    copy_cmd = f"docker cp {container_name}:/comfyui_project/ComfyUI/extra_model_paths.yaml {CONFIG_PATH}"
+    copy_cmd = f"docker cp {container_name}:/matrx_comfy/ComfyUI/extra_model_paths.yaml {CONFIG_PATH}"
     run_command(copy_cmd)
     new_content = view_config_contents(None, is_local=True)
     if old_content and new_content:
@@ -227,9 +257,8 @@ def run_container(container_name):
         print(Fore.RED + f"Error: Please create {CONFIG_PATH} first" + Style.RESET_ALL)
         return
     
-    # Check if image exists
-    if not run_command("docker image inspect matrx-comfy:latest >/dev/null 2>&1"):
-        print(Fore.RED + "Image 'matrx-comfy:latest' not found. Please build it first (option 1)." + Style.RESET_ALL)
+    if not run_command(f"docker image inspect {DOCKER_IMAGE_TAG} >/dev/null 2>&1"):
+        print(Fore.RED + f"Image '{DOCKER_IMAGE_TAG}' not found. Please build it first (option 1 or 13)." + Style.RESET_ALL)
         return
     
     mappings = load_volume_mappings().get(container_name, [])
@@ -238,20 +267,49 @@ def run_container(container_name):
     flag_args = " ".join(flags)
     
     print(Fore.CYAN + f"Removing existing container {container_name} if it exists..." + Style.RESET_ALL)
-    if not run_command(f"docker rm -f {container_name} 2>/dev/null"):
-        print(Fore.YELLOW + "Failed to remove existing container. Attempting to proceed anyway..." + Style.RESET_ALL)
+    run_command(f"docker rm -f {container_name} 2>/dev/null")
     
     run_cmd = (
         f"docker run -d {flag_args} "
-        f"-v {CONFIG_PATH}:/comfyui_project/ComfyUI/extra_model_paths.yaml "
+        f"-v {CONFIG_PATH}:/matrx_comfy/ComfyUI/extra_model_paths.yaml "
         f"{volume_args} "
-        f"--name {container_name} matrx-comfy:latest"
+        f"--name {container_name} {DOCKER_IMAGE_TAG}"
     )
     print(Fore.CYAN + f"Running command: {run_cmd}" + Style.RESET_ALL)
     if run_command(run_cmd):
         print(Fore.GREEN + Back.BLUE + f"Container running at http://localhost:{DOCKER_PORT}" + Style.RESET_ALL)
     else:
         print(Fore.RED + "Failed to start container. Check error above." + Style.RESET_ALL)
+
+def build_and_run_docker(container_name):
+    print(Fore.CYAN + Back.BLACK + f"Building and Running Docker image '{DOCKER_IMAGE_TAG}'..." + Style.RESET_ALL)
+    
+    # Check for existing containers using this image
+    existing_containers = get_running_containers(DOCKER_IMAGE_TAG)
+    if existing_containers:
+        print(Fore.YELLOW + f"\nFound existing containers using '{DOCKER_IMAGE_TAG}':" + Style.RESET_ALL)
+        for i, cont in enumerate(existing_containers, 1):
+            print(f"{i}. {Fore.WHITE}{cont}{Style.RESET_ALL}")
+        choice = input(Fore.CYAN + "Replace all existing containers? (y/n): " + Style.RESET_ALL).lower()
+        if choice != 'y':
+            print(Fore.YELLOW + "Build and run cancelled." + Style.RESET_ALL)
+            return
+    
+    # Build the image with verbose option
+    verbose = input(Fore.CYAN + "Show verbose build output? (y/n, default n): " + Style.RESET_ALL).lower() == 'y'
+    if not build_docker_image(verbose=verbose):
+        print(Fore.RED + "Failed to build Docker image. Aborting." + Style.RESET_ALL)
+        return
+    
+    # Stop and remove existing containers if any
+    if existing_containers:
+        print(Fore.CYAN + "Stopping and removing existing containers..." + Style.RESET_ALL)
+        for cont in existing_containers:
+            run_command(f"docker stop {cont}")
+            run_command(f"docker rm {cont}")
+    
+    # Run the new container
+    run_container(container_name)
 
 def main():
     os.system(CLEAR)
@@ -262,8 +320,8 @@ def main():
     
     # Initialize default flags if not set
     flags = load_docker_flags()
-    if container_name not in flags and container_name == "comfyui-container":
-        flags[container_name] = ["--gpus all", "-p 8189:8189"]
+    if container_name not in flags and container_name == DEFAULT_CONTAINER_NAME:
+        flags[container_name] = ["--gpus all", f"-p {DOCKER_PORT}:8189"]
         save_docker_flags(flags)
     
     while True:
@@ -280,9 +338,10 @@ def main():
         print(Fore.WHITE + "10. Remove a mapped directory" + Style.RESET_ALL)
         print(Fore.WHITE + "11. Traverse mapped directories" + Style.RESET_ALL)
         print(Fore.WHITE + "12. Copy workflows to container" + Style.RESET_ALL)
-        print(Fore.WHITE + "13. Exit" + Style.RESET_ALL)
+        print(Fore.WHITE + "13. Build and Run Docker image" + Style.RESET_ALL)
+        print(Fore.WHITE + "14. Exit" + Style.RESET_ALL)
         
-        choice = input(Fore.CYAN + "Enter your choice (1-13): " + Style.RESET_ALL)
+        choice = input(Fore.CYAN + "Enter your choice (1-14): " + Style.RESET_ALL)
         
         if choice == "1":
             build_docker()
@@ -309,6 +368,8 @@ def main():
         elif choice == "12":
             copy_workflows(container_name)
         elif choice == "13":
+            build_and_run_docker(container_name)
+        elif choice == "14":
             print(Fore.MAGENTA + Back.WHITE + " Goodbye! " + Style.RESET_ALL)
             break
         else:

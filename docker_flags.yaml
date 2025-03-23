@@ -4,3 +4,6 @@ comfyui-container:
 default:
 - --gpus all
 - -p 8189:8189
+matrx-comfy:
+- --gpus all
+- -p 8189:8189
